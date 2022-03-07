@@ -39,6 +39,7 @@ fn main() -> std::io::Result<()> {
         // C++ compiler
         let mut build = cc::Build::new();
         build.cpp(true);
+        build.flag("-std=c++17");
 
         // Set defines for compiler
         for (key, value) in DEFINES.iter() {

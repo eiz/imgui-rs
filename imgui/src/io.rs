@@ -481,10 +481,6 @@ fn test_io_memory_layout() {
     assert_field_offset!(get_clipboard_text_fn, GetClipboardTextFn);
     assert_field_offset!(set_clipboard_text_fn, SetClipboardTextFn);
     assert_field_offset!(clipboard_user_data, ClipboardUserData);
-    #[cfg(not(feature = "docking"))]
-    assert_field_offset!(ime_set_input_screen_pos_fn, ImeSetInputScreenPosFn);
-    #[cfg(not(feature = "docking"))]
-    assert_field_offset!(ime_window_handle, ImeWindowHandle);
     assert_field_offset!(mouse_pos, MousePos);
     assert_field_offset!(mouse_down, MouseDown);
     assert_field_offset!(mouse_wheel, MouseWheel);
@@ -510,7 +506,6 @@ fn test_io_memory_layout() {
     assert_field_offset!(metrics_active_allocations, MetricsActiveAllocations);
     assert_field_offset!(mouse_delta, MouseDelta);
     assert_field_offset!(key_mods, KeyMods);
-    assert_field_offset!(key_mods_prev, KeyModsPrev);
     assert_field_offset!(mouse_pos_prev, MousePosPrev);
     assert_field_offset!(mouse_clicked_pos, MouseClickedPos);
     assert_field_offset!(mouse_clicked_time, MouseClickedTime);
@@ -522,10 +517,7 @@ fn test_io_memory_layout() {
     assert_field_offset!(mouse_down_owned, MouseDownOwned);
     assert_field_offset!(mouse_down_duration, MouseDownDuration);
     assert_field_offset!(mouse_down_duration_prev, MouseDownDurationPrev);
-    assert_field_offset!(mouse_drag_max_distance_abs, MouseDragMaxDistanceAbs);
     assert_field_offset!(mouse_drag_max_distance_sqr, MouseDragMaxDistanceSqr);
-    assert_field_offset!(keys_down_duration, KeysDownDuration);
-    assert_field_offset!(keys_down_duration_prev, KeysDownDurationPrev);
     assert_field_offset!(nav_inputs_down_duration, NavInputsDownDuration);
     assert_field_offset!(nav_inputs_down_duration_prev, NavInputsDownDurationPrev);
     assert_field_offset!(pen_pressure, PenPressure);
