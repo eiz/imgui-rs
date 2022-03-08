@@ -155,9 +155,6 @@ pub struct Io {
     pub mouse_double_click_max_dist: f32,
     /// Distance threshold before considering we are dragging
     pub mouse_drag_threshold: f32,
-    /// Map of indices into the `keys_down` entries array, which represent your "native" keyboard
-    /// state
-    pub key_map: [u32; sys::ImGuiKey_COUNT as usize],
     /// When holding a key/button, time before it starts repeating, in seconds
     pub key_repeat_delay: f32,
     /// When holding a key/button, rate at which it repeats, in seconds
@@ -389,6 +386,7 @@ impl Io {
     }
 }
 
+/* TODO(eiz): new key input system
 impl Index<Key> for Io {
     type Output = u32;
     fn index(&self, index: Key) -> &u32 {
@@ -400,7 +398,7 @@ impl IndexMut<Key> for Io {
     fn index_mut(&mut self, index: Key) -> &mut u32 {
         &mut self.key_map[index as usize]
     }
-}
+}*/
 
 impl Index<NavInput> for Io {
     type Output = f32;
