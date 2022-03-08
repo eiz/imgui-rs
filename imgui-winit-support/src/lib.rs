@@ -1137,7 +1137,7 @@ impl WinitPlatform {
                 }
                 MouseScrollDelta::PixelDelta(pos) => {
                     let pos = pos.to_logical::<f64>(self.hidpi_factor);
-                    io.mouse_wheel_h += pos.x as f32;
+                    io.mouse_wheel_h -= pos.x as f32;
                     io.mouse_wheel += pos.y as f32;
                 }
             },
