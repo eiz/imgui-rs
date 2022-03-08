@@ -4298,7 +4298,7 @@ void ImGui::UpdateMouseWheel()
         if (!(window->Flags & ImGuiWindowFlags_NoScrollWithMouse) && !(window->Flags & ImGuiWindowFlags_NoMouseInputs))
         {
             float max_step = window->InnerRect.GetHeight() * 0.67f;
-            float scroll_step = ImFloor(ImMin(5 * window->CalcFontSize(), max_step));
+            float scroll_step = 1.0;
             SetScrollY(window, window->Scroll.y - wheel_y * scroll_step);
         }
     }

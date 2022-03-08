@@ -1137,16 +1137,8 @@ impl WinitPlatform {
                 }
                 MouseScrollDelta::PixelDelta(pos) => {
                     let pos = pos.to_logical::<f64>(self.hidpi_factor);
-                    match pos.x.partial_cmp(&0.0) {
-                        Some(Ordering::Greater) => io.mouse_wheel_h += 1.0,
-                        Some(Ordering::Less) => io.mouse_wheel_h -= 1.0,
-                        _ => (),
-                    }
-                    match pos.y.partial_cmp(&0.0) {
-                        Some(Ordering::Greater) => io.mouse_wheel += 1.0,
-                        Some(Ordering::Less) => io.mouse_wheel -= 1.0,
-                        _ => (),
-                    }
+                    io.mouse_wheel_h += pos.x as f32;
+                    io.mouse_wheel += pos.y as f32;
                 }
             },
             WindowEvent::MouseInput { state, button, .. } => {
