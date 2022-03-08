@@ -232,43 +232,9 @@ pub struct Io {
     pub(crate) set_clipboard_text_fn:
         Option<unsafe extern "C" fn(user_data: *mut c_void, text: *const c_char)>,
     pub(crate) clipboard_user_data: *mut c_void,
-    #[cfg(not(feature = "docking"))]
-    ime_set_input_screen_pos_fn:
-        Option<unsafe extern "C" fn(x: std::os::raw::c_int, y: std::os::raw::c_int)>,
-    #[cfg(not(feature = "docking"))]
-    ime_window_handle: *mut c_void,
-    /// Mouse position, in pixels.
-    ///
-    /// Set to [f32::MAX, f32::MAX] if mouse is unavailable (on another screen, etc.).
-    pub mouse_pos: [f32; 2],
-    /// Mouse buttons: 0=left, 1=right, 2=middle + extras
-    pub mouse_down: [bool; 5],
-    /// Mouse wheel (vertical).
-    ///
-    /// 1 unit scrolls about 5 lines of text.
-    pub mouse_wheel: f32,
-    /// Mouse wheel (horizontal).
-    ///
-    /// Most users don't have a mouse with a horizontal wheel, and may not be filled by all
-    /// backends.
-    pub mouse_wheel_h: f32,
-    #[cfg(feature = "docking")]
-    pub mouse_hovered_viewport: sys::ImGuiID,
-    /// Keyboard modifier pressed: Control
-    pub key_ctrl: bool,
-    /// Keyboard modifier pressed: Shift
-    pub key_shift: bool,
-    /// Keyboard modifier pressed: Alt
-    pub key_alt: bool,
-    /// Keyboard modifier pressed: Cmd/Super/Windows
-    pub key_super: bool,
-    /// Keyboard keys that are pressed (indexing defined by the user/application)
-    pub keys_down: [bool; 512],
-    /// Gamepad inputs.
-    ///
-    /// Cleared back to zero after each frame. Keyboard keys will be auto-mapped and written
-    /// here by `frame()`.
-    pub nav_inputs: [f32; NavInput::COUNT + NavInput::INTERNAL_COUNT],
+    _set_platform_ime_data_fn: *mut c_void,
+    _unused_padding: *mut c_void,
+
     /// When true, imgui-rs will use the mouse inputs, so do not dispatch them to your main
     /// game/application
     pub want_capture_mouse: bool,
@@ -312,6 +278,44 @@ pub struct Io {
     /// Note that this is zero if either current or previous position is invalid ([f32::MAX,
     /// f32::MAX]), so a disappearing/reappearing mouse won't have a huge delta.
     pub mouse_delta: [f32; 2],
+
+    /// LEGACY: Map of indices into the `keys_down` entries array, which represent your "native" keyboard
+    /// state
+    pub key_map: [u32; sys::ImGuiKey_COUNT as usize],
+    /// Keyboard keys that are pressed (indexing defined by the user/application)
+    pub keys_down: [bool; sys::ImGuiKey_COUNT as usize],
+
+    /// Mouse position, in pixels.
+    ///
+    /// Set to [f32::MAX, f32::MAX] if mouse is unavailable (on another screen, etc.).
+    pub mouse_pos: [f32; 2],
+    /// Mouse buttons: 0=left, 1=right, 2=middle + extras
+    pub mouse_down: [bool; 5],
+    /// Mouse wheel (vertical).
+    ///
+    /// 1 unit scrolls about 5 lines of text.
+    pub mouse_wheel: f32,
+    /// Mouse wheel (horizontal).
+    ///
+    /// Most users don't have a mouse with a horizontal wheel, and may not be filled by all
+    /// backends.
+    pub mouse_wheel_h: f32,
+    #[cfg(feature = "docking")]
+    pub mouse_hovered_viewport: sys::ImGuiID,
+    /// Keyboard modifier pressed: Control
+    pub key_ctrl: bool,
+    /// Keyboard modifier pressed: Shift
+    pub key_shift: bool,
+    /// Keyboard modifier pressed: Alt
+    pub key_alt: bool,
+    /// Keyboard modifier pressed: Cmd/Super/Windows
+    pub key_super: bool,
+
+    /// Gamepad inputs.
+    ///
+    /// Cleared back to zero after each frame. Keyboard keys will be auto-mapped and written
+    /// here by `frame()`.
+    pub nav_inputs: [f32; NavInput::COUNT + NavInput::INTERNAL_COUNT],
 
     pub want_capture_mouse_unless_popup_close: bool,
 
@@ -386,7 +390,6 @@ impl Io {
     }
 }
 
-/* TODO(eiz): new key input system
 impl Index<Key> for Io {
     type Output = u32;
     fn index(&self, index: Key) -> &u32 {
@@ -398,7 +401,7 @@ impl IndexMut<Key> for Io {
     fn index_mut(&mut self, index: Key) -> &mut u32 {
         &mut self.key_map[index as usize]
     }
-}*/
+}
 
 impl Index<NavInput> for Io {
     type Output = f32;

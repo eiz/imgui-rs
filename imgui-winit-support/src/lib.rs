@@ -458,7 +458,6 @@ impl WinitPlatform {
         let io = imgui.io_mut();
         io.backend_flags.insert(BackendFlags::HAS_MOUSE_CURSORS);
         io.backend_flags.insert(BackendFlags::HAS_SET_MOUSE_POS);
-        /* TODO(eiz): new key input system
         io[Key::Tab] = VirtualKeyCode::Tab as _;
         io[Key::LeftArrow] = VirtualKeyCode::Left as _;
         io[Key::RightArrow] = VirtualKeyCode::Right as _;
@@ -480,7 +479,7 @@ impl WinitPlatform {
         io[Key::V] = VirtualKeyCode::V as _;
         io[Key::X] = VirtualKeyCode::X as _;
         io[Key::Y] = VirtualKeyCode::Y as _;
-        io[Key::Z] = VirtualKeyCode::Z as _;*/
+        io[Key::Z] = VirtualKeyCode::Z as _;
         imgui.set_platform_name(Some(format!(
             "imgui-winit-support {}",
             env!("CARGO_PKG_VERSION")
