@@ -214,6 +214,11 @@ impl Ui {
         self.tab_item_with_flags(label, Some(opened), TabItemFlags::empty())
     }
 
+    /// Creates a new tab item button and returns true if it was clicked.
+    pub fn tab_item_button_with_flags(&self, label: impl AsRef<str>, flags: TabItemFlags) -> bool {
+        unsafe { sys::igTabItemButton(self.scratch_txt(label), flags.bits() as i32) }
+    }
+
     /// Creates a new tab item and returns a token if its contents are visible.
     pub fn tab_item_with_flags(
         &self,
