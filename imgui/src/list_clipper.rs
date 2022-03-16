@@ -79,16 +79,9 @@ impl<'ui> ListClipperToken<'ui> {
 
 impl<'ui> Drop for ListClipperToken<'ui> {
     fn drop(&mut self) {
-        if !self.step() {
-            unsafe {
-                sys::ImGuiListClipper_destroy(self.list_clipper);
-            };
-        } else if !thread::panicking() {
-            panic!(
-                "Forgot to call End(), or to Step() until false? \
-            This is the only token in the repository which users must call `.end()` or `.step()` \
-            with. See https://github.com/imgui-rs/imgui-rs/issues/438"
-            );
-        }
+        self.end();
+        unsafe {
+            sys::ImGuiListClipper_destroy(self.list_clipper);
+        };
     }
 }
